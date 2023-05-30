@@ -88,8 +88,7 @@ if dataset == 'mnist':
     dim_s = np.array([dim_in, 392, 196, 96, 48, 24])
     Cs_list = np.array([1, 1, 1, 1, 1]) * 0.2
     C_1 = torch.tensor(0.2)
-    #net = HeavisideNet2(dim_s, dim_out).to(device)
-    net = HeavisideNet(dim_s, dim_out).to(device)
+    net = HeavisideNet2(dim_s, dim_out).to(device)
 elif dataset == 'cifar10':
     use_bias = True
     pooltype = 'max'
