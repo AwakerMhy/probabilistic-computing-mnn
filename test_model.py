@@ -25,7 +25,6 @@ def parse_args():
     parser.add_argument('--test_batch', type=int, default=128, help='The number of testing batch size.')
     parser.add_argument('--load_model_path', type=str, default=None, help='The path of the model to be loaded.')
     parser.add_argument('--lr', type=float, default=0.0005, help='learning rate.')
-    parser.add_argument('--gpu', action='store_true', help='If use gpu.')
     parser.add_argument('--save_model', action='store_true', help='If save the model.')
     parser.add_argument('--scheduler', type=str, default=None, help='the scheduler of learning.')
     parser.add_argument('--opt', type=str, default='adam', help='the optimizer')
