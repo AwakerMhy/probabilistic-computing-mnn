@@ -18,7 +18,6 @@ class Net(nn.Module):
         self.eps = 10e-9
 
     def cov_forward(self, ubar, Vbar, Cbar, no_cov=False):
-        # faster and less memory budget
         V_activated = self.C_v(ubar, Vbar)
         if no_cov:
             cov_activated = torch.zeros_like(Cbar)
@@ -70,7 +69,6 @@ class Net(nn.Module):
 
         assert Cs_list.shape[0] == len(self.linear_sequence)
 
-        # the layer before mnn
         x = self.forward_before(img)
 
         if output_cov_activated_mid:
@@ -178,13 +176,11 @@ class Net2(nn.Module):
 
         assert Cs_list.shape[0] == len(self.linear_sequence)
 
-        # the layer before mnn
         x = self.forward_before(img)
 
         if output_cov_activated_mid:
             output_cov_activated = []
 
-        # first layer
         if len(self.linear_sequence) > 1:
             x, cov_activated = self.forward_layer(x, self.linear_sequence[0], C_in, Cs_list[0], cal_cov=True,
                                                   no_cov=no_cov)
@@ -193,14 +189,12 @@ class Net2(nn.Module):
         else:
             cov_activated = C_in
 
-        # middle layers
         for i, linear_func in enumerate(self.linear_sequence[1:-1]):
             x, cov_activated = self.forward_layer(x, linear_func, cov_activated, Cs_list[i + 1], cal_cov=True,
                                                   no_cov=no_cov)
             if output_cov_activated_mid:
                 output_cov_activated.append(cov_activated)
 
-        # final layer
         if output_C:
             x, cov_activated = self.forward_layer(x, self.linear_sequence[-1], cov_activated, Cs_list[-1],
                                                   cal_cov=True, no_cov=no_cov)
