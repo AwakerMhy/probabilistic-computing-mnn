@@ -1,6 +1,6 @@
 # Probabilistic computation with emerging covariance: towards efficient uncertainty quantification
-###  [Paper](http://)
-> [**Probabilistic computation with emerging covariance: towards efficient uncertainty quantification**](http://),            
+###  [Paper](https://arxiv.org/abs/2305.19265)
+> [**Probabilistic computation with emerging covariance: towards efficient uncertainty quantification**](https://arxiv.org/abs/2305.19265),            
 > Hengyuan Ma, Yang Qi, Li Zhang, Wenlian Lu, Jianfeng Feng
 
 This repository provides implementation for training and evaluating moment neural networks based on the Pytorch library.
