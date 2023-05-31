@@ -346,40 +346,15 @@ class CNN_Net(Net):
                     Cov_in = Cov_in * torch.eye(dim_in).to(ubar.device)
                     Cov_in = Cov_in.reshape(x.shape[1], x.shape[2], x.shape[3], x.shape[1], x.shape[2], x.shape[3])
 
-                # TODO: check the transpose and permute of cov in the following!!!
-                # cov shape when implementing WC^T: d1 * d2 * d3, d1 * d2 * d3 (d1: channel, d2: H, d3: W)
                 Cbar_ = conv2(Cov_in.permute(3, 4, 5, 0, 1, 2).reshape(dim_in, x.shape[1], x.shape[2], x.shape[3]))
-                # cov shape after WC^T:  d1 * d2 * d3, d1_2 * d2_2 * d3_2 (d1_2, d2_2, d3_2: dims after implementing conv)
-                # reshape to d1_2 * d2_2 * d3_2, d1, d2, d3
                 Cbar = conv2(Cbar_.permute(1, 2, 3, 0).reshape(dim_out, x.shape[1], x.shape[2], x.shape[3]))
                 Vbar = torch.diag(Cbar.reshape(dim_out, dim_out)).reshape(ubar.shape) + Cs
                 if cal_cov:
                     cov_activated = self.cov_forward(ubar.reshape(dim_out), Vbar.reshape(dim_out),
                                                      Cbar.reshape(dim_out, dim_out)).reshape(
                         ubar.shape[0], ubar.shape[1], ubar.shape[2], ubar.shape[0], ubar.shape[1], ubar.shape[2])
-                    # if x.shape[2] > 1:  # 如果W 和 H已经为1，就没法池化了
-                    #     cov_activated_pool = self.pool(
-                    #         cov_activated.reshape(dim_out, ubar.shape[0], ubar.shape[1], ubar.shape[2]))
-                    #     dim_out_pool = np.prod(cov_activated_pool.shape[1:])
-                    #     cov_activated = self.pool(
-                    #         cov_activated_pool.permute(1, 2, 3, 0).reshape(dim_out_pool, ubar.shape[0], ubar.shape[1],
-                    #                                                        ubar.shape[2]))
-                    # if pool is not None:
-                    #     cov_activated_pool = pool(
-                    #         cov_activated.reshape(dim_out, ubar.shape[0], ubar.shape[1], ubar.shape[2]))
-                    #     dim_out_pool = np.prod(cov_activated_pool.shape[1:])
-                    #     cov_activated = pool(
-                    #         cov_activated_pool.permute(1, 2, 3, 0).reshape(dim_out_pool, ubar.shape[0], ubar.shape[1],
-                    #                                                        ubar.shape[2]))
-                    #     cov_activated = cov_activated.reshape(ubar.shape[0], ubar.shape[1], ubar.shape[2],
-                    #                                           ubar.shape[0], ubar.shape[1], ubar.shape[2])
-                # give back the bias for the conv
                 if self.use_bias:
                     conv2.bias.data = bias
-        # if x.shape[2] > 1: # 如果W 和 H已经为1，就没法池化了
-        #     x = self.pool(self.m_v(conv2(x), Vbar.unsqueeze(0)))
-        # else:
-        #     x = self.m_v(conv2(x), Vbar.unsqueeze(0))
         x = self.m_v(conv2(x), Vbar.unsqueeze(0))
 
         if bn is not None:
@@ -389,9 +364,6 @@ class CNN_Net(Net):
                     std = bn.weight / torch.sqrt(bn.running_var + self.eps)
                     cov_activated *= std.reshape(-1, 1, 1, 1, 1, 1)
                     cov_activated *= std.reshape(1, 1, 1, -1, 1, 1)
-
-        # TODO: 这里使用bn的顺序和VGG不一样，可能需要调整！！！
-        # TODO: bn会影响covariance，还没有写好这方面的代码！！！
 
         if pool is not None:
             x = pool(x)
