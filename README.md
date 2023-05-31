@@ -61,16 +61,16 @@ For the CIFAR-10 dataset, we have included an example of a modified VGG13 networ
 For the CIFAR-100 dataset, we have included an example of a modified VGG13 network with large channels number. 
 ```
 $ python test_classification.py --dataset cifar10 
-                               --heaviside
-                               --batch_cov
-                               --amp
-                               --train_batch 256 
-                               --test_batch 128 
-                               --opt Adam
-                               --lr 0.0001 
-                               --epochs 120 
-                               --weight_decay 0.0005  
-                               --save_model
+                                --heaviside
+                                --batch_cov
+                                --amp
+                                --train_batch 256 
+                                --test_batch 128 
+                                --opt Adam
+                                --lr 0.0001 
+                                --epochs 120 
+                                --weight_decay 0.0005  
+                                --save_model
 ```
 * `dataset` is the name of dataset (mnist, fashionmnist, cifar10, or cifar100). 
 * `amp` is the option for whether to use data amplification
@@ -90,20 +90,20 @@ for regression tasks on the UCI regression datasets. Before running the followin
 please download the `data/notMNIST_small.zip` and extract its contents.
 
 ```
-$ python test_regression.py    --datadir data\uci_datasets
-                               --dataset concrete 
-                               --heaviside
-                               --data_norm
-                               --norm_type min_max
-                               --batch_cov
-                               --train_batch 64 
-                               --opt sgd
-                               --lr 0.0001 
-                               --epochs 1000 
-                               --save_model
-                               --sigma1 0.5
-                               --sigma2 0.5
-                               --test_times 20
+$ python test_regression.py --datadir data\uci_datasets
+                            --dataset concrete 
+                            --heaviside
+                            --data_norm
+                            --norm_type min_max
+                            --batch_cov
+                            --train_batch 64 
+                            --opt sgd
+                            --lr 0.0001 
+                            --epochs 1000 
+                            --save_model
+                            --sigma1 0.5
+                            --sigma2 0.5
+                            --test_times 20
 ```
 * `datadir` is the directory of dataset.
 * `dataset` is the name of dataset (housing, concrete, energy, kin8, protein, power, wine, yacht).
@@ -143,8 +143,7 @@ python test_attack.py  --dataset mnist
                        --defending
 ```
 * `dataset` is the name of dataset (mnist, cifar10).
-* `defending` is the option for whether to set the $\sigma_1,\sigma_2$ as zero to defend 
-* the adversarial attack.
+* `defending` is the option for whether to set the $\sigma_1,\sigma_2$ as zero to defend the adversarial attack.
 
 
 
