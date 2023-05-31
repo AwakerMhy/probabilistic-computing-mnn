@@ -1,9 +1,10 @@
-# Probabilistic computation with emerging covariance: towards efficient uncertainty quantification
+# Probabilistic Computation with Emerging Covariance: Towards Efficient Uncertainty Quantification
 ###  [Paper](https://arxiv.org/abs/2305.19265)
 > [**Probabilistic computation with emerging covariance: towards efficient uncertainty quantification**](https://arxiv.org/abs/2305.19265),            
 > Hengyuan Ma, Yang Qi, Li Zhang, Wenlian Lu, Jianfeng Feng
 
-This repository provides implementation for training and evaluating moment neural networks based on the Pytorch library.
+This repository provides implementation for training and evaluating moment neural networks (MNNs) trained through
+the Supervised Mean and Unsupervised Covariance (SMUC) approach based on the Pytorch library.
 
 
 ## Abstract
