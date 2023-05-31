@@ -2,8 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 from stoc_models import sto_Net, sto_Net2
-from models import HeavisideNet2, ReluNet2, CNN_ReluNet, CNN_HeavisideNet, \
-    HeavisideNet2, ReluNet2, CNN_ReluNet2, CNN_HeavisideNet2
+from models import HeavisideNet2, ReluNet2
 from dataset import mnist
 from tqdm import tqdm
 
@@ -29,17 +28,10 @@ dim_in = 28 * 28
 dim_out = 10
 device = 'cuda:0'
 
-# MLP for MNIST--------------------------------------------------------------------------------------
-
-# dim_s = np.array([dim_in, 392, 196, 96, 48, 24])
-# Cs_list = np.array([1, 1, 1, 1, 1]) * 0.2
 
 dim_s = np.array([dim_in, 196, 48])
 Cs_list = np.array([1, 1]) * 0.4
-
-C_1 = torch.tensor(1) * 0.4  # 1
-
-
+C_1 = torch.tensor(1) * 0.4
 net_type = args.net_type # 'heav' # relu
 
 net = sto_Net2(net_type, dim_s, dim_out).to(device)
@@ -138,7 +130,7 @@ with torch.no_grad():
         axs[-1].set_xlabel('times',fontsize=fontsize)
         axs[-1].set_yticks([0,2,4,6,8],[0,2,4,6,8],rotation=20,fontsize=fontsize-2)
         axs[-1].set_xticks([0,show_length//2,show_length],fontsize=fontsize)
-        plt.savefig(r'C:\Users\12143\Desktop\simple_MNN\pic\dynamics.pdf',format='pdf',bbox_inches='tight', dpi=100)
+
 
         fig2 = plt.figure()
         plt.imshow(x[0,0],cmap='Greys_r')
@@ -146,7 +138,6 @@ with torch.no_grad():
         plt.yticks([])
 
         plt.axis('off')
-        plt.savefig(r'C:\Users\12143\Desktop\simple_MNN\pic\dynamics2.pdf',format='pdf',bbox_inches='tight', dpi=100)
 
         fig3, axes3 = plt.subplots(figsize=[5,5],nrows=1, ncols=2)
 
@@ -159,8 +150,6 @@ with torch.no_grad():
         axes3[1].set_xticks([0,2,4,6,8],[0,2,4,6,8],fontsize=fontsize-2)
         axes3[1].set_yticks([0, 2, 4, 6, 8], [0, 2, 4, 6, 8], fontsize=fontsize - 2)
         fig3.colorbar(img1, ax=axes3.ravel().tolist())
-
-        plt.savefig(r'C:\Users\12143\Desktop\simple_MNN\pic\dynamics3.pdf', format='pdf', bbox_inches='tight', dpi=100)
 
         fig4 = plt.figure(figsize=[6,4.5])
         plt.subplots_adjust(wspace=0.0, hspace=0.2)
@@ -180,6 +169,5 @@ with torch.no_grad():
         plt.ylabel('variance',fontsize=fontsize)
         plt.legend(['MNN', 'SDE'],fontsize=fontsize)
         plt.xlabel('predicted label',fontsize=fontsize)
-        plt.savefig(r'C:\Users\12143\Desktop\simple_MNN\pic\dynamics4.pdf', format='pdf', bbox_inches='tight', dpi=100)
         plt.show()
 

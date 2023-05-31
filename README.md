@@ -31,12 +31,14 @@ and the corresponding verision using batch-wise trick (Heaviside, ReluNet, CNN_R
 
 * `activations.py`: Heaviside and ReLU moment activation.
 * `models.py`: network architectures of MNN such as Heaviside, ReluNet, CNN_ReluNet, CNN_Heaviside.
+* `stoc_models.py`: full-connected feed-forward stochastic neural network.
 * `utils.py`: useful utilities for analyzing results of MNN.
 * `dataset.py`: preprocessing of datasets.
 * `test_classification.py`: examples for training and evaluating MNN for classification tasks.
 * `test_regression.py`: examples for training and evaluating MNN for regression tasks.
 * `test_ood.py`: demo for out-of-detection detection using MNN.
 * `test_attack.py`: demo for gradient-based adversarial attack defending and awareness using MNN.
+* `test_stoc_models.py`: demo for simulating stochastic network using parameters of MNN.
 * `data`: directory for storing datasets such as UCI regression dataset and notMNIST dataset.
 * `checkpoints`: directory for storing some pretrained checkpoints.
 
@@ -46,6 +48,7 @@ and the corresponding verision using batch-wise trick (Heaviside, ReluNet, CNN_R
 * torchvision: 0.12.0
 * scipy: 1.7.3
 * numpy: 1.21.6
+* matplotlib: 3.5.1
 
 
 ## Demo
@@ -145,5 +148,17 @@ python test_attack.py  --dataset mnist
 * `dataset` is the name of dataset (mnist, cifar10).
 * `defending` is the option for whether to set the $\sigma_1,\sigma_2$ as zero to defend the adversarial attack.
 
-
-
+### Numerical simulation on the stochastic network
+Code for simulating the feed-forward neural network constructed by the parameters trained on MNN. Before running the following experiment, 
+please download the pretrained checkpoint `checkpoints/mnist_heav_mlp.pt` for the
+Heaviside case and `checkpoints/mnist_relu_mlp.pt` for the ReLU case.
+```
+python test_stoc_model.py --net_type  heav
+                          --load_model_path checkpoints\mnist_heav_mlp.pt
+                          --times 5500
+                          --dt 0.1
+```
+* `net_type` is the type of the moment activation used network of dataset (heav, relu).
+* `load_model_path` is the path storing the pretrained checkpoint of MNN.
+* `times` is the number of the simulation time steps.
+* `dt` is the size of the time step.
