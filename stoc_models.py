@@ -4,7 +4,7 @@ import torch.nn as nn
 
 
 # steady-state distribution
-class sto_Net(nn.Module):  # deeper one
+class sto_Net(nn.Module):  
     def __init__(self, activation='heav', dim_s=np.array([28 * 28, 392, 196, 96, 48, 24]), dim_out=10):
         super(sto_Net, self).__init__()
         self.dim_in = dim_s[0]
@@ -21,7 +21,7 @@ class sto_Net(nn.Module):  # deeper one
             self.act = nn.ReLU()
 
     def forward(self, img, C_in=torch.tensor(1), Cs_list=np.array([1, 1, 1, 1, 1])):
-        assert Cs_list.shape[0] == len(self.linear_sequence)  # 最后一层不加噪声Cs
+        assert Cs_list.shape[0] == len(self.linear_sequence)
         # the layer before mnn
         result_states = []
         x = img.view(-1, self.dim_in) + torch.randn_like(img.view(-1, self.dim_in)) * np.sqrt(C_in)
@@ -64,7 +64,7 @@ class sto_Net2(nn.Module):  # deeper one
             raise NameError('No such activations.')
 
     def forward(self, img, C_in=torch.tensor(1), Cs_list=np.array([1, 1, 1, 1, 1])):
-        assert Cs_list.shape[0] == len(self.linear_sequence)  # 最后一层不加噪声Cs
+        assert Cs_list.shape[0] == len(self.linear_sequence)
         # the layer before mnn
         states = []
         x = img.view(-1, self.dim_in) + torch.randn_like(img.view(-1, self.dim_in)) * np.sqrt(C_in)
@@ -88,11 +88,9 @@ class sto_Net2(nn.Module):  # deeper one
         return states
 
     def run(self, dt, img, states, C_in=torch.tensor(1), Cs_list=np.array([1, 1, 1, 1, 1])):
-        assert Cs_list.shape[0] == len(self.linear_sequence)  # 最后一层不加噪声Cs
-        # the layer before mnn
+        assert Cs_list.shape[0] == len(self.linear_sequence)
         result_states = []
         x = states[0] + dt * (img.view(-1, self.dim_in) - states[0]) + np.sqrt(2 * dt * C_in) * torch.randn_like(states[0])
-        #x = img.view(-1, self.dim_in) #+ np.sqrt(C_in) * torch.randn_like(states[0])
         result_states.append(x)
         # first layer
         if len(self.linear_sequence) > 1:
@@ -107,9 +105,7 @@ class sto_Net2(nn.Module):  # deeper one
         # final layer
         x = states[-2] + dt * (self.act(self.linear_sequence[-1](x)) - states[-2]) + \
             np.sqrt(2*dt * Cs_list[-1]) * torch.randn_like(states[-2])
-        #x = self.act(self.linear_sequence[-1](x))
         result_states.append(x)
         x = states[-1] + dt * (self.final(x) - states[-1])
-        #x = self.final(x)
         result_states.append(x)
         return result_states
