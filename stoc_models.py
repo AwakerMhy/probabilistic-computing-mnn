@@ -4,7 +4,7 @@ import torch.nn as nn
 
 
 # steady-state distribution
-class sto_Net(nn.Module):  
+class sto_Net(nn.Module):
     def __init__(self, activation='heav', dim_s=np.array([28 * 28, 392, 196, 96, 48, 24]), dim_out=10):
         super(sto_Net, self).__init__()
         self.dim_in = dim_s[0]
@@ -45,7 +45,7 @@ class sto_Net(nn.Module):
 
 
 # OU process
-class sto_Net2(nn.Module):  # deeper one
+class sto_Net2(nn.Module):  
     def __init__(self, activation='heav', dim_s=np.array([28 * 28, 392, 196, 96, 48, 24]), dim_out=10):
         super(sto_Net2, self).__init__()
         self.dim_in = dim_s[0]
