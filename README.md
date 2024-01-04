@@ -70,7 +70,7 @@ $ python test_classification.py --dataset cifar10
                                 --amp
                                 --train_batch 256 
                                 --test_batch 128 
-                                --opt Adam
+                                --opt adam
                                 --lr 0.0001 
                                 --epochs 120 
                                 --weight_decay 0.0005  
