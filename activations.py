@@ -40,7 +40,6 @@ class Relu(nn.Module):
         return result
 
     def psi(self, mu, C=torch.tensor(1)):
-        result = (1 + torch.erf(mu / torch.sqrt(2 * C))) * torch.sqrt(C) / 2 + \
-                 torch.exp(-mu ** 2 / 2 / C) * (torch.sqrt(C) + mu) / np.sqrt(2 * np.pi)
+        result = (1 + torch.erf(mu / torch.sqrt(2 * C))) * torch.sqrt(C) / 2
         result[C < self.eps] = 0
         return result
