@@ -65,7 +65,7 @@ def eval(net, x_test, y_test, no_cov=False):
 
             variance = variance_out.cpu().numpy()
             ll_s.append(
-                ll_cal(output.cpu().numpy().reshape(-1), y.cpu().numpy().reshape(-1), variance.reshape(-1)).reshape(-1)[
+                ll_cal(output.cpu().numpy().reshape(-1), y.cpu().numpy().reshape(-1), variance.reshape(-1),rescale=y_scale.numpy()).reshape(-1)[
                     0])
 
             for l in range(layer_num):
@@ -145,6 +145,7 @@ for n in tqdm(range(args.test_times)):
             y_train = (y_train - y_train_mean) / y_train_std
             x_test = (x_test - x_train_mean) / x_train_std
             y_test = (y_test - y_train_mean) / y_train_std
+            y_scale = y_train_std
         elif args.norm_type == 'min_max':
             x_train_max = x_train.max(dim=0)[0]
             y_train_max = y_train.max(dim=0)[0]
@@ -156,8 +157,11 @@ for n in tqdm(range(args.test_times)):
             y_train = (y_train - y_train_min) / (y_train_max - y_train_min)
             x_test = (x_test - x_train_min) / (x_train_max - x_train_min)
             y_test = (y_test - y_train_min) / (y_train_max - y_train_min)
+            y_scale = (y_train_max - y_train_min)
         else:
             raise NameError('No such normalization type.')
+    else:
+        y_scale = 1
 
     train_num = x_train.shape[0]
 
